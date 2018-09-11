@@ -1,57 +1,59 @@
-#include <stdio.h>
-#include <vector>
-#include <stdlib.h>
-#include <iostream>
-#include <string>
-#include <sstream>
+#include "Cell.h"
 
-// Class Declaration
+Cell::Cell(std::vector<std::string> elements, int idx, bool isProg)
+{
+    // parse known values
+    lID_ = idx;
+    ID_ = std::stoi(elements[0]);
+    birth_ = std::stoi(elements[1]);
+    motherID_ = std::stoi(elements[3]);
+    proID_ = std::stoi(elements[4]);
+    growthRate_ = std::stod(elements[5],NULL);
+    isProgenitor_ = isProg;
 
-class Cell {
+    mother_ = NULL;
+    progenitor_ = NULL;
 
-public:
-    Cell();
-
-
-private:
-    
-    // cell ID
-    // birth frame
-    // generation relative to progenitor
-    // mother cell (reference)
-    // progenitor
-    // old pole age
-    // growth rate
-};
-
-
-void constructLineage(){
-    // Declaring Vector of String type 
-    std::vector<std::string> celldata;
-    // read lines one by one
-    //while (!cell_in.eof()) {
-        //const std::string line = getline();
-        //celldata = split(line,',');
-}
-
-// splits a string by delimiter and returns element vector
-std::vector<std::string> split(const std::string &s, char delim){
-    std::stringstream ss(s);
-    std::string item;
-    std::vector<std::string> elems;
-    while (std::getline(ss, item, delim)) {
-        elems.push_back(std::move(item));
+    // is this cell a progenitor?
+    if(isProg){
+        // generation 0
+        // old pole is initialized to age 1
+        motherID_ = getID();
+        generation_ = 0;
+        oldPoleAge_ = 1;
     }
-    return elems;
+    else{
+        generation_ = 0;
+        oldPoleAge_ = 0;
+    }
 }
 
-int main() {
-    
-    // initialize cell array
+void Cell::linkCell(Cell* m, Cell* p){
+    setMother(m);
+    setPro(p);
+}
 
-    // initialize cell address register
-    //Cell *ptr[linecount];
+void Cell::initAge(std::string age){
+    if(age=="NaN"){
+        int a = getMother()->getAge();
+        setAge(a);
+    }
+    // else assign given value
+    else{
+        int a = std::stoi(age);
+        setAge(a);
+    }  
+    int g = getMother()->getGen() + 1;
+    setGen(g);
+}
 
-
-    return 0;
+void Cell::printCell(){
+    std::cout << "My ID is " << getID() << std::endl;
+    //std::cout << "My birth is " << getBirth() << std::endl;
+    std::cout << "My mother ID is " << getMotherID() << std::endl;
+    std::cout << "My progenitor ID is " << getProID() << std::endl;
+    std::cout << "My lineage ID is " << getProID() << std::endl;
+    std::cout << "My growth rate is " << getGrowthRate() << std::endl;
+    std::cout << "My age is " << getAge() << std::endl;
+    std::cout << "My generation is " << getGen() << std::endl;
 }
