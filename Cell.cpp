@@ -10,9 +10,12 @@ Cell::Cell(std::vector<std::string> elements, int idx, bool isProg)
     proID_ = std::stoi(elements[4]);
     growthRate_ = std::stod(elements[5],NULL);
     isProgenitor_ = isProg;
+    isOldest_ = false;
 
     mother_ = NULL;
     progenitor_ = NULL;
+    d1_ = NULL;
+    d2_ = NULL;
 
     // is this cell a progenitor?
     if(isProg){
@@ -31,11 +34,12 @@ Cell::Cell(std::vector<std::string> elements, int idx, bool isProg)
 void Cell::linkCell(Cell* m, Cell* p){
     setMother(m);
     setPro(p);
+    m->setBirthCount();
 }
 
 void Cell::initAge(std::string age){
     if(age=="NaN"){
-        int a = getMother()->getAge();
+        int a = getMother()->getAge() + 1;
         setAge(a);
     }
     // else assign given value
@@ -47,13 +51,32 @@ void Cell::initAge(std::string age){
     setGen(g);
 }
 
-void Cell::printCell(){
-    std::cout << "My ID is " << getID() << std::endl;
-    //std::cout << "My birth is " << getBirth() << std::endl;
-    std::cout << "My mother ID is " << getMotherID() << std::endl;
-    std::cout << "My progenitor ID is " << getProID() << std::endl;
-    std::cout << "My lineage ID is " << getProID() << std::endl;
-    std::cout << "My growth rate is " << getGrowthRate() << std::endl;
-    std::cout << "My age is " << getAge() << std::endl;
-    std::cout << "My generation is " << getGen() << std::endl;
+void Cell::linkDaughter(){    
+// if mother cell has two daughters
+    if(getMother()->getBirthCount()==1){
+        getMother()->setD1(this);
+    }
+    else{
+        getMother()->setD2(this);
+        int age = getAge();
+        if(getMother()->getD1()->getAge() > age)
+        {
+            getMother()->getD1()->setOldest();
+        }
+        else{
+            setOldest();
+        }
+    }
+}
+
+void Cell::printCell(int field){
+    std::cout << field;
+    std::cout << "\t" << getlID();
+    std::cout << "\t" << getID();
+    std::cout << "\t" << getMotherID();
+    std::cout << "\t" << getProID();
+    std::cout << "\t" << getGrowthRate();
+    std::cout << "\t" << getAge();
+    std::cout << "\t" << isOldest();
+    std::cout << "\t" << getGen() << std::endl;
 }
