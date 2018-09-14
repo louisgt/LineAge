@@ -8,7 +8,7 @@ Lineage::Lineage(int birthframe, int idx, std::vector<std::string> elements){
 
 	lineage_idx = idx;
 
-	std::cout << "Lineage constructor: new lineage born at frame " << birth << std::endl;
+	//std::cout << "Lineage constructor: new lineage born at frame " << birth << std::endl;
 
 	// push back first cell (progenitor)
 	cellVect.emplace_back(elements,lineage_idx,true);
@@ -39,6 +39,7 @@ void Lineage::insertCell(std::vector<std::string> elements){
 
 	last->linkCell(m,p);
 	last->initAge(elements[2]);
+	last->linkDaughter();
 
 	// update register
 	cellIdx.emplace(last->getID(), last);
