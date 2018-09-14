@@ -29,14 +29,15 @@ int main(int argc, char *argv[]) {
     // initialize cell array
 
     int cellcount = std::stoi(argv[2]);
+    int fieldID = std::stoi(argv[3]);
     int cell_ctr = 1;
     int l_ctr = 0;
 
 
-    std::cout << "Considering " << cellcount << " first cells." << std::endl;
+    //std::cout << "Considering " << cellcount << " first cells." << std::endl;
 
     //open cell list
-    std::cout << "Opening cell list ..." << std::endl;
+    //std::cout << "Opening cell list ..." << std::endl;
     std::ifstream infile(argv[1]);
     std::string line;
     // discard header
@@ -67,17 +68,18 @@ int main(int argc, char *argv[]) {
         cell_ctr++;
     }while(cell_ctr < cellcount);
 
+    std::cout << "FieldID\tLineage\tID\tMother\tProgenitor\tGrowthRate\tAge\tOldest\tGeneration" << std::endl;
     for(auto it = LineageMap.begin(); it != LineageMap.end(); ++it)
     {
 	    int key = it->first;
 	    std::shared_ptr<Lineage> l = it->second;
-	    if(l->getSize() < 7){
+	    if(l->getSize() <= 4){
 	    	continue;
 	    }
-	    std::cout << "#@@# Printing lineage of size " << l->getSize() << std::endl;
+	    //std::cout << "#@@# Printing lineage of size " << l->getSize() << std::endl;
 	    for(auto cell_it = l->getCells()->begin(); cell_it!= l->getCells()->end(); ++cell_it)
 	    {
-	    	(*cell_it).printCell();
+	    	(*cell_it).printCell(fieldID);
 	    }
     }
 
