@@ -30,6 +30,7 @@ public:
 
 	int getSize() {return size;}
 	int getBirth() {return birth;}
+	int getIdx() {return lineage_idx;}
 	std::vector <Cell>* getCells() {return &cellVect;}
 
 	// add new cell to lineage
@@ -37,6 +38,8 @@ public:
 
 	// find cell by ID (using register)
 	Cell* findCell(int);
+
+	std::string inOrderNewick(Cell *root);
 
 };
 
