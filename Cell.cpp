@@ -11,6 +11,7 @@ Cell::Cell(std::vector<std::string> elements, int idx, bool isProg)
     growthRate_ = std::stod(elements[5],NULL);
     isProgenitor_ = isProg;
     isOldest_ = false;
+    birthCount_ = 0;
 
     mother_ = NULL;
     progenitor_ = NULL;
@@ -32,12 +33,14 @@ Cell::Cell(std::vector<std::string> elements, int idx, bool isProg)
 }
 
 void Cell::linkCell(Cell* m, Cell* p){
+    //std::cout << "linking cell..." << std::endl;
     setMother(m);
     setPro(p);
     m->setBirthCount();
 }
 
 void Cell::initAge(std::string age){
+    //std::cout << "intializing age..." << std::endl;
     if(age=="NaN"){
         int a = getMother()->getAge() + 1;
         setAge(a);
@@ -51,7 +54,8 @@ void Cell::initAge(std::string age){
     setGen(g);
 }
 
-void Cell::linkDaughter(){    
+void Cell::linkDaughter(){ 
+    //std::cout << "linking daughters..." << std::endl;
 // if mother cell has two daughters
     if(getMother()->getBirthCount()==1){
         getMother()->setD1(this);
@@ -73,6 +77,7 @@ void Cell::printCell(int field){
     std::cout << field;
     std::cout << "\t" << getlID();
     std::cout << "\t" << getID();
+    std::cout << "\t" << getBirth();
     std::cout << "\t" << getMotherID();
     std::cout << "\t" << getProID();
     std::cout << "\t" << getGrowthRate();
