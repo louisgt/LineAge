@@ -54,3 +54,40 @@ Cell* Lineage::findCell(int ID){
         return search->second;
     } else return NULL;
 }
+
+std::string Lineage::inOrderNewick(Cell *root){
+	std::string label = "";
+	int lifespan = 0;
+	if(root->getD1()!=NULL){
+		std::string output = "";
+        output += "(";
+        output += inOrderNewick(root->getD1());
+        output += ",";
+        output += inOrderNewick(root->getD2());
+        output += ")";
+        output += std::to_string(root->getID());
+        output += ":";
+        lifespan = (root->getD1()->getBirth()) - root->getBirth();
+		output += std::to_string(lifespan);
+		output += "[&&NHX:XX=";
+		output += std::to_string(root->getAge());
+		output += "]";
+        return output;
+	} else {
+		label += std::to_string(root->getID());
+		label += ":";
+		// if cell has children, we can compute its lifespan
+		if(root->getD1()!=NULL){
+			lifespan = (root->getD1()->getBirth()) - root->getBirth();
+		}
+		// else its lifespan is bounded by the end of the timelapse
+		else{
+			lifespan = 64 - root->getBirth();
+		}
+		label += std::to_string(lifespan);
+		label += "[&&NHX:XX=";
+		label += std::to_string(root->getAge());
+		label += "]";
+        return label;
+    }
+}
