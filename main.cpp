@@ -31,6 +31,7 @@ int main(int argc, char *argv[]) {
 
     int cellcount;
     int fieldID;
+    int expID;
     int cell_ctr = 1;
     int l_ctr = 0;
 
@@ -38,6 +39,7 @@ int main(int argc, char *argv[]) {
         //std::cout << "convert cell count and field ID" << std::endl;
         cellcount = std::stoi(argv[2]);
         fieldID = std::stoi(argv[3]);
+        expID = std::stoi(argv[4]);
     }
     catch(const std::invalid_argument& ia){
         std::cout << "Invalid argument to std::stoi" << std::endl;
@@ -55,7 +57,7 @@ int main(int argc, char *argv[]) {
     do
     {
         std::getline(infile, line);
-        std::vector<std::string> celldata = split(line,',');  
+        std::vector<std::string> celldata = split(line,',');
 
         int proID;
         
@@ -63,7 +65,7 @@ int main(int argc, char *argv[]) {
 
         try{
             //std::cout << "convert progenitor ID" << std::endl;
-            proID = std::stoi(celldata[4]);
+            proID = std::stoi(celldata[7]);
             //std::cout << "progenitor is " << proID << std::endl;
         }
         catch(const std::invalid_argument& ia){
@@ -96,20 +98,20 @@ int main(int argc, char *argv[]) {
         cell_ctr++;
     }while(cell_ctr < cellcount);
 
-    std::cout << "FieldID\tLineage\tID\tFrame\tMother\tProgenitor\tGrowthRate\tAge\tOldest\tGeneration" << std::endl;
+    std::cout << "ExpID\tFieldID\tLineage\tID\tFrame\tMother\tProgenitor\tGrowthRate\tLifespan\tAge\tDivAge\tOldest\tGeneration\tBirthLength\tDeathLength\tDistToEdge" << std::endl;
     for(auto it = LineageMap.begin(); it != LineageMap.end(); ++it)
     {
 	    int key = it->first;
 	    std::shared_ptr<Lineage> l = it->second;
-	    if(l->getSize() <= 4){
+	    if(l->getSize() <= 2){
 	    	continue;
 	    }
-        std::cout << ">(" << l->inOrderNewick(&(l->getCells()->front())) << ")[&&NHX:XX=1];" << std::endl;
-	    // //std::cout << "#@@# Printing lineage of size " << l->getSize() << std::endl;
-	    // for(auto cell_it = l->getCells()->begin(); cell_it!= l->getCells()->end(); ++cell_it)
-	    // {
-	    // 	(*cell_it).printCell(fieldID);
-	    // }
+        //std::cout << ">(" << l->inOrderNewick(&(l->getCells()->front())) << ")[&&NHX:XX=1];" << std::endl;
+	    //std::cout << "#@@# Printing lineage of size " << l->getSize() << std::endl;
+	    for(auto cell_it = l->getCells()->begin(); cell_it!= l->getCells()->end(); ++cell_it)
+	    {
+	    	(*cell_it).printCell(fieldID,expID);
+	    }
     }
 
     return 0;
