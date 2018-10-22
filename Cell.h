@@ -17,6 +17,14 @@ protected:
     // birth frame
     int birth_;
 
+    int birthLen_;
+
+    int deathLen_;
+
+    double lifespan_;
+
+    double dist_;
+
     // generation relative to progenitor
     int generation_;
 
@@ -30,6 +38,8 @@ protected:
 
     // old pole age
     int oldPoleAge_;
+
+    int divAge_;
 
     // growth rate
     double growthRate_;
@@ -65,6 +75,11 @@ public:
     int getBirth() {return birth_;}
     int getGen() {return generation_;}
     int getAge() {return oldPoleAge_;}
+    int getDivAge() {return divAge_;}
+    int getBLen() {return birthLen_;}
+    int getDLen() {return deathLen_;}
+    double getDist() {return dist_;}
+    double getLifespan() {return lifespan_;}
     int getBirthCount() {return birthCount_;}
     double getGrowthRate() {return growthRate_;}
     bool isProgenitor() {return isProgenitor_;}
@@ -80,10 +95,12 @@ public:
     void setBirthCount() {birthCount_++;}
     void setPro(Cell *p) {progenitor_ = p;}
     void setAge(int a) {oldPoleAge_ = a;}
+    void setDivAge(int a) {divAge_ = a;}
+    void setLifespan(double a) {lifespan_ = a;}
     void setGen(int g) {generation_ = g;}
     void setOldest() {isOldest_ = true;}
 
-    void printCell(int);
+    void printCell(int,int);
 };
 
 #endif
