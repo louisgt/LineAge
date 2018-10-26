@@ -31,14 +31,19 @@ void Lineage::insertCell(std::vector<std::string> elements){
 	Cell* last = &cellVect.back();
 
 	int mid = last->getMotherID();
+	//std::cout << "mid is " << mid << std::endl;
 	int pid = last->getProID();
+	//std::cout << "pid is " << pid << std::endl;
 
 	// get pointers
 	Cell* m = findCell(mid);
 	Cell* p = findCell(pid);
 
+	//std::cout << "insert: link" << std::endl;
 	last->linkCell(m,p);
-	last->initAge(elements[2]);
+	//std::cout << "insert: init" << std::endl;
+	last->initAge(elements[3]);
+	//std::cout << "insert: linkDaughter" << std::endl;
 	last->linkDaughter();
 
 	// update register
@@ -71,6 +76,11 @@ std::string Lineage::inOrderNewick(Cell *root){
 		output += std::to_string(lifespan);
 		output += "[&&NHX:XX=";
 		output += std::to_string(root->getAge());
+		output += ":DIV=";
+		output += std::to_string(root->getDivAge());
+		output += ":OLD=";
+		if(root->isOldest()) output += std::to_string(root->isOldest());
+		else output += std::to_string(-1);
 		output += "]";
         return output;
 	} else {
@@ -81,12 +91,18 @@ std::string Lineage::inOrderNewick(Cell *root){
 			lifespan = (root->getD1()->getBirth()) - root->getBirth();
 		}
 		// else its lifespan is bounded by the end of the timelapse
+		// hardcoded for the moment, but consider making it an argument (maybe global in main)
 		else{
-			lifespan = 64 - root->getBirth();
+			lifespan = 148 - root->getBirth();
 		}
 		label += std::to_string(lifespan);
 		label += "[&&NHX:XX=";
 		label += std::to_string(root->getAge());
+		label += ":DIV=";
+		label += std::to_string(root->getDivAge());
+		label += ":OLD=";
+		if(root->isOldest()) label += std::to_string(root->isOldest());
+		else label += std::to_string(-1);
 		label += "]";
         return label;
     }

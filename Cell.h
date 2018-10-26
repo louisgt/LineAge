@@ -17,6 +17,8 @@ protected:
     // birth frame
     int birth_;
 
+    int death_;
+
     int birthLen_;
 
     int deathLen_;
@@ -73,6 +75,7 @@ public:
     int getProID() {return proID_;}
     int getlID() {return lID_;}
     int getBirth() {return birth_;}
+    int getDeath() {return death_;}
     int getGen() {return generation_;}
     int getAge() {return oldPoleAge_;}
     int getDivAge() {return divAge_;}

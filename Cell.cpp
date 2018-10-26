@@ -8,24 +8,30 @@ Cell::Cell(std::vector<std::string> elements, int idx, bool isProg)
     //std::cout << "ID is " << ID_ << std::endl;
     birth_ = std::stoi(elements[1]);
     //std::cout << "birth is " << birth_ << std::endl;
-    birthLen_ = std::stoi(elements[3]);
+    death_ = (int)std::stod(elements[2],NULL);
+    birthLen_ = std::stoi(elements[4]);
     //std::cout << "birth len is " << birthLen_ << std::endl;
-    deathLen_ = std::stoi(elements[4]);
+    deathLen_ = std::stoi(elements[5]);
     //std::cout << "death len is " << deathLen_ << std::endl;
-    motherID_ = std::stoi(elements[5]);
+    motherID_ = std::stoi(elements[6]);
     //std::cout << "mother ID is " << motherID_ << std::endl;
-    dist_ = std::stod(elements[6],NULL);
+    dist_ = std::stod(elements[7],NULL);
     //std::cout << "dist is " << dist_ << std::endl;
-    proID_ = std::stoi(elements[7]);
+    proID_ = std::stoi(elements[8]);
     //std::cout << "pro is " << proID_ << std::endl;
-    growthRate_ = std::stod(elements[8],NULL);
+    growthRate_ = std::stod(elements[9],NULL);
     //std::cout << "gr is " << growthRate_ << std::endl;
+    //std::cout << "death is " << death_ << std::endl;
     
     isProgenitor_ = isProg;
     isOldest_ = false;
     birthCount_ = 0;
     // lifespan defaults to NaN, to avoid 0s at end of timelapse
     lifespan_ = std::numeric_limits<double>::quiet_NaN();
+    if(death_!=birth_)
+    {
+        lifespan_ = death_ - birth_;
+    }
 
     mother_ = NULL;
     progenitor_ = NULL;
@@ -77,7 +83,7 @@ void Cell::linkDaughter(){
     // if mother cell has two daughters
     if(getMother()->getBirthCount()==1){
         getMother()->setD1(this);
-        getMother()->setLifespan(this->getBirth()-getMother()->getBirth());
+        //getMother()->setLifespan(this->getBirth()-getMother()->getBirth());
     }
     else{
         getMother()->setD2(this);

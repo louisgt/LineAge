@@ -65,7 +65,7 @@ int main(int argc, char *argv[]) {
 
         try{
             //std::cout << "convert progenitor ID" << std::endl;
-            proID = std::stoi(celldata[7]);
+            proID = std::stoi(celldata[8]);
             //std::cout << "progenitor is " << proID << std::endl;
         }
         catch(const std::invalid_argument& ia){
@@ -106,11 +106,11 @@ int main(int argc, char *argv[]) {
 	    if(l->getSize() <= 2){
 	    	continue;
 	    }
-        //std::cout << ">(" << l->inOrderNewick(&(l->getCells()->front())) << ")[&&NHX:XX=1];" << std::endl;
+        //std::cout << ">(" << l->inOrderNewick(&(l->getCells()->front())) << ")[&&NHX:XX=0:DIV=0:OLD=0];" << std::endl;
 	    //std::cout << "#@@# Printing lineage of size " << l->getSize() << std::endl;
 	    for(auto cell_it = l->getCells()->begin(); cell_it!= l->getCells()->end(); ++cell_it)
 	    {
-	    	(*cell_it).printCell(fieldID,expID);
+	     	(*cell_it).printCell(fieldID,expID);
 	    }
     }
 
